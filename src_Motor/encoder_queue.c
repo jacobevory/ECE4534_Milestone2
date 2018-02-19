@@ -3,30 +3,30 @@
 #include "encoder_queue.h"
 
 
-#define QUEUE_SEND_FREQUENCY_MS         ( 200 / portTICK_PERIOD_MS )
-#define QUEUE_LENGTH                    ( 1 )
+#define ENCODER_QUEUE_SEND_FREQUENCY_MS         ( 200 / portTICK_PERIOD_MS )
+#define ENCODER_QUEUE_LENGTH                    ( 1 )
 
 QueueHandle_t eQueue;
 
 
-void sensorq_create (void){
+/*void sensorq_create (void){
 	 eQueue = xQueueCreate( 32, sizeof(uint32_t));
-}
+}*/
 
-void sensorq_createf (void){
+void encoder_sensorq_create (void){
 	 eQueue = xQueueCreate( 32, sizeof(float));
 }
 
-void sensorq_send(uint32_t L, uint32_t R){
+/*void sensorq_send(uint32_t L, uint32_t R){
 	//sends data
     struct encoder_message *peMessage;
     eMessage.left  = L;
 	eMessage.right = R;
     peMessage = &eMessage;
 	xQueueSendToBackFromISR( eQueue, ( void * ) &peMessage, (BaseType_t) 0);
-}
+}*/
 
-void sensorq_sendf(float L, float R){
+void encoder_sensorq_sendf(float L, float R){
     struct encoder_message *peMessage;
     eMessage.left  = L;
 	eMessage.right = R;
@@ -42,7 +42,7 @@ void calculate_encoder_val(void){
     sensor.right20Count = 0;
     }
 
-struct encoder_message* sensorq_receive(void){
+struct encoder_message* encoder_sensor_receive(void){
     struct encoder_message *inMessage;
 	if(xQueueReceive( eQueue, &inMessage, portMAX_DELAY )){
         return inMessage;
