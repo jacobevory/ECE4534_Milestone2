@@ -24,11 +24,11 @@ typedef struct
 
 SENSOR_QUEUE_DATA sensor;
 
-struct AMessage
+struct encoder_message
     {
         uint32_t left;
 		uint32_t right;
-    } xMessage;
+    } eMessage;
 
 float Val1;
 float Val2;
@@ -38,4 +38,4 @@ void sensorq_createf( void );
 void sensorq_send(uint32_t L, uint32_t R);
 void sensorq_sendf(float L, float R); 
 void calculate_encoder_val(void);
-struct AMessage * sensorq_receive( void );
+struct encoder_message * sensorq_receive( void );
