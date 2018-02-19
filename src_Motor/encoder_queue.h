@@ -34,8 +34,8 @@ float Val1;
 float Val2;
 
 //void sensorq_create( void );
-void encoder_sensorq_create( void );
+void encoder_sensor_create( void );
 //void encoder_sensorq_send(uint32_t L, uint32_t R);
-void encoder_sensorq_send(float L, float R); 
+void encoder_sensor_send(float L, float R); 
 void calculate_encoder_val(void);
 struct encoder_message * encoder_sensor_receive( void );

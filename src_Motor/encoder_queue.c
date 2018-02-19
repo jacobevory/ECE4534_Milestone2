@@ -13,7 +13,7 @@ QueueHandle_t eQueue;
 	 eQueue = xQueueCreate( 32, sizeof(uint32_t));
 }*/
 
-void encoder_sensorq_create (void){
+void encoder_sensor_create (void){
 	 eQueue = xQueueCreate( 32, sizeof(float));
 }
 
@@ -26,7 +26,7 @@ void encoder_sensorq_create (void){
 	xQueueSendToBackFromISR( eQueue, ( void * ) &peMessage, (BaseType_t) 0);
 }*/
 
-void encoder_sensorq_sendf(float L, float R){
+void encoder_sensor_send(float L, float R){
     struct encoder_message *peMessage;
     eMessage.left  = L;
 	eMessage.right = R;
