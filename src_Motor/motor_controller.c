@@ -99,7 +99,7 @@
         DRV_TMR1_Start();
         DRV_TMR2_Start();
         PLIB_USART_Enable(USART_ID_1);
-        sensorq_createf();
+        encoder_sensor_create();
         ENCODER_DEMO_RUNNING = true;
     }
 
@@ -172,7 +172,7 @@
                 }
                 case INITIALIZE_ENCODER : {
                     while (MOTOR_DEMO_COUNT < 150);
-                    sensorq_create();
+                    encoder_sensor_create();
                     setMotorL(FORWARD, 100);
                     ENCODER_DEMO_RUNNING = true;
                     state = RUN_ENCODER;
@@ -183,8 +183,8 @@
                     while(true){
                     float rightVal = 0;
                     float leftVal = 0;
-                    struct AMessage *message;
-                    message = sensorq_receive();
+                    struct encoder_message *message;
+                    message = encoder_sensor_receive();
                     rightVal = message->right;
                     leftVal = message->left;
                     dbgOutputVal(rightVal);

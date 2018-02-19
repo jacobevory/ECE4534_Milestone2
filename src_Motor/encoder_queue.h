@@ -26,8 +26,8 @@ SENSOR_QUEUE_DATA sensor;
 
 struct encoder_message
     {
-        uint32_t left;
-		uint32_t right;
+        float left;
+		float right;
     } eMessage;
 
 float Val1;
