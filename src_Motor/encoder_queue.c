@@ -35,11 +35,11 @@ void encoder_sensor_send(float L, float R){
 }
 
 void calculate_encoder_val(void){
-    Val1 = (float)sensor.left20Count*100/4;
-    Val2 = (float)sensor.right20Count*100/4; // x/(20*.2) = 4
+    Val1 = (float)encoder.left20Count*100/4;
+    Val2 = (float)encoder.right20Count*100/4; // x/(20*.2) = 4
     encoder_sensor_send(Val1, Val2);
-    sensor.left20Count = 0;
-    sensor.right20Count = 0;
+    encoder.left20Count = 0;
+    encoder.right20Count = 0;
     }
 
 struct encoder_message* encoder_sensor_receive(void){
