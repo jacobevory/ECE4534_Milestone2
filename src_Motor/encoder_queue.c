@@ -21,10 +21,10 @@ void encoder_sensor_send(float L, float R){
 void calculate_encoder_val(void){
     encoder.TIME_TO_CALCULATE = false;
     encoder.float_1 = (float)DRV_TMR1_CounterValueGet()/180;
-    encoder.float_2 = (float)DRV_TMR2_CounterValueGet()/180; // x/(20*.2) = 4
-    encoder_sensor_send(encoder.float_1, encoder.float_2);
+    encoder.float_2 = (float)DRV_TMR2_CounterValueGet()/180; // x/180
     DRV_TMR1_CounterClear();
     DRV_TMR2_CounterClear();
+    encoder_sensor_send(encoder.float_1, encoder.float_2);
     }
 
 struct encoder_message* encoder_sensor_receive(void){
@@ -37,10 +37,10 @@ struct encoder_message* encoder_sensor_receive(void){
 void initializeEncoder(void){
     encoder.TIME_TO_CALCULATE = false;
     encoder_sensor_create();
+    DRV_TMR1_CounterClear();
+    DRV_TMR2_CounterClear();
     DRV_TMR1_Start();
     DRV_TMR2_Start();
-    encoder.rightVal = 0;
-    encoder.leftVal = 0;
 }
 uint8_t i = 0;
 void ENCODER(void){

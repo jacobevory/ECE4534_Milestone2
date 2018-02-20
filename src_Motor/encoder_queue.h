@@ -5,7 +5,7 @@
 typedef struct
 {
     QueueHandle_t eQueue;
-    bool TIME_TO_CALCULATE;
+    volatile bool TIME_TO_CALCULATE;
     float float_1;
     float float_2;
     float rightVal;
