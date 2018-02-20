@@ -107,12 +107,12 @@ void SYS_Tasks ( void )
     /* Create OS Thread for the Motor Controller. */
     xTaskCreate((TaskFunction_t) _Motor_Control_Thread,
                 "Motor Control Thread",
-                1024, NULL, 2, NULL);
+                1024, NULL, 1, NULL);
     
     /* Create OS Thread for the Motor Encoder. */
     xTaskCreate((TaskFunction_t) _Encoder_Control_Thread,
                 "Encoder Control Thread",
-                1024, NULL, 2, NULL);
+                1024, NULL, 1, NULL);
     
     /**************
      * Start RTOS * 

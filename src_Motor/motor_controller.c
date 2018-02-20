@@ -96,10 +96,10 @@
     }
     void motorControllerInitialize(void){
         DRV_TMR0_Start();
+        motor.MOTOR_DEMO_COUNT = 0;
     }
 
     void motorDemo( void ){
-        //configASSERT( ( ( uint32_t ) pvParameters ) == 1 );
         motorControllerInitialize();
         enum stateVariable { Initialize, Wait, Forward1, Forward2, TurnLeft, TurnRight, Reverse1, Reverse2, Stop, END_MOTOR, END_DEMO } state, nextState;
         state = Initialize;
@@ -108,18 +108,19 @@
             switch(state)
             {
                 case Initialize : {
-                    
+                    if(motor.MOTOR_DEMO_COUNT >= 30){
                     motor.MOTOR_DEMO_COUNT = 0;
-                    while (motor.MOTOR_DEMO_COUNT < 30);
                     setMotorR(FORWARD, 0);
                     setMotorL(FORWARD, 0);
                     state = nextState;
+                    }
                     break;
                 }
                 case Wait : {
+                    if(motor.MOTOR_DEMO_COUNT >= 15){
                     motor.MOTOR_DEMO_COUNT = 0;
-                    while (motor.MOTOR_DEMO_COUNT < 15);
                     state = ++nextState;
+                    }
                     break;
                 }
                 case Forward1 : {

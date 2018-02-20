@@ -5,17 +5,27 @@
 #include "debug.h"
 
 // Section: Interface Functions                                               */
-volatile bool toggleVal = false;
-volatile bool toggleVal1 = false;
-uint8_t transmitVal = 0;
-uint8_t transmitVal1 = 0;
+typedef struct {
+volatile bool toggleVal;
+volatile bool toggleVal1;
+uint8_t transmitVal;
+uint8_t transmitVal1;
+} DEBUG_VARS;
+DEBUG_VARS debug;
+
+bool DEBUG_INIT_FLAG = false;
 
 void dbgOutputVal(uint32_t outVal){
-    if (outVal < 0 || outVal > 127) transmitVal = 127;
-    else transmitVal = (outVal  + (toggleVal * 128));
-    writeIntTo1((uint8_t)transmitVal);
-    if(!toggleVal) toggleVal = true;
-    else if (toggleVal) toggleVal = false;
+    if(!DEBUG_INIT_FLAG){
+        debug.toggleVal = false;
+        debug.toggleVal1 = false;
+        DEBUG_INIT_FLAG = true;
+    }
+    if (outVal < 0 || outVal > 127) debug.transmitVal = 127;
+    else debug.transmitVal = (outVal  + (debug.toggleVal * 128));
+    writeIntTo1((uint8_t)debug.transmitVal);
+    if(!debug.toggleVal) debug.toggleVal = true;
+    else if (debug.toggleVal) debug.toggleVal = false;
 }
 
 void dbgUARTVal(unsigned char outVal){
@@ -23,11 +33,16 @@ void dbgUARTVal(unsigned char outVal){
 }
 
 void dbgOutputLoc(uint32_t outVal){
-    if (outVal < 0 || outVal > 127) transmitVal1 = 127;
-    else transmitVal1 = (outVal  + (toggleVal1 * 128));
-    writeIntTo2((uint8_t)transmitVal1);
-    if(!toggleVal1) toggleVal1 = true;
-    else if (toggleVal1) toggleVal1 = false;
+    if(!DEBUG_INIT_FLAG){
+        debug.toggleVal = false;
+        debug.toggleVal1 = false;
+        DEBUG_INIT_FLAG = true;
+    }
+    if (outVal < 0 || outVal > 127) debug.transmitVal1 = 127;
+    else debug.transmitVal1 = (outVal  + (debug.toggleVal1 * 128));
+    writeIntTo2((uint8_t)debug.transmitVal1);
+    if(!debug.toggleVal1) debug.toggleVal1 = true;
+    else if (debug.toggleVal1) debug.toggleVal1 = false;
 }
 
 void ohNoh(void){
@@ -76,7 +91,7 @@ void writeIntTo2(uint8_t value){
 void UARTstringPLZ(const char *string){
     const char *stringPointer;
     stringPointer = string;
-    while(*stringPointer != '\0'){
+    while((*stringPointer != '\0') & !PLIB_USART_TransmitterBufferIsFull(USART_ID_1)){
                 PLIB_USART_TransmitterByteSend(USART_ID_1, *stringPointer);
                 stringPointer++;
                 if(*stringPointer == '\0'){

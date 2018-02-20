@@ -61,6 +61,8 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 
 #include "system/common/sys_common.h"
 #include "app.h"
+#include "motor_controller.h"
+#include "encoder_queue.h"
 #include "system_definitions.h"
 
 // *****************************************************************************
@@ -93,8 +95,8 @@ void IntHandlerDrvUsartInstance0(void)
 void IntHandlerDrvTmrInstance0(void)
 {
     PLIB_INT_SourceFlagClear(INT_ID_0,INT_SOURCE_TIMER_2);
-        calculate_encoder_val();
-        motor.MOTOR_DEMO_COUNT++;
+    encoder.TIME_TO_CALCULATE = true;
+    motor.MOTOR_DEMO_COUNT++;
 }
 void IntHandlerDrvTmrInstance1(void)
 {

@@ -1,9 +1,11 @@
 #include "FreeRTOS.h"
 #include "queue.h"
+#include <stdbool.h>
 
 typedef struct
 {
     QueueHandle_t eQueue;
+    bool TIME_TO_CALCULATE;
     volatile uint32_t left20Count;
     volatile uint32_t right20Count;
     volatile float left20Countf;
@@ -23,11 +25,9 @@ struct encoder_message
     } eMessage;
 
 
-
-//void sensorq_create( void );
-void encoder_sensor_create( void );
-//void encoder_sensorq_send(uint32_t L, uint32_t R);
+void encoder_sensor_create(void);
 void encoder_sensor_send(float L, float R); 
 void calculate_encoder_val(void);
 struct encoder_message * encoder_sensor_receive( void );
-void ENCODER();
+void initializeEncoder(void);
+void ENCODER(void);

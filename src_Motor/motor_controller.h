@@ -31,10 +31,8 @@
 /* TODO:  Include other files here if needed. */
 #include <stdbool.h>
 #include <bsp.h>
-#include "encoder_queue.h"
 #include "peripheral/oc/plib_oc.h"
 #include "peripheral/int/plib_int.h"
-#include "peripheral/usart/plib_usart.h"
 /* Provide C++ Compatibility */
 #ifdef __cplusplus
 extern "C" {
