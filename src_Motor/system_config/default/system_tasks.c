@@ -76,6 +76,8 @@ static void _Motor_Control_Thread(void);
 
 static void _Encoder_Control_Thread(void);
 
+static void _Communication_Thread(void);
+
 // *****************************************************************************
 // *****************************************************************************
 // Section: System "Tasks" Routine
@@ -114,6 +116,10 @@ void SYS_Tasks ( void )
                 "Encoder Control Thread",
                 1024, NULL, 1, NULL);
     
+    /* Create OS Thread for the Motor Encoder. */
+    xTaskCreate((TaskFunction_t) _Communication_Thread,
+                "Communication Thread",
+                1024, NULL, 1, NULL);
     /**************
      * Start RTOS * 
      **************/
@@ -176,6 +182,14 @@ static void _Encoder_Control_Thread(void)
     for(;;)
     {
         ENCODER();
+    }
+}
+
+staic void _Communication_Thread(void)
+{
+    for(::)
+    {
+        COMMUNICATION();
     }
 }
 /*******************************************************************************
