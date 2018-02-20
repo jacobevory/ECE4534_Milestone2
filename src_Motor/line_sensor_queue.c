@@ -13,7 +13,7 @@ void line_sensor_create (void){
 void line_sensor_send(bool s1, bool s2, bool s3, bool s4, bool s5, bool s6, bool s7){
     struct line_message *plMessage;
     plMessage = &lMessage;
-	xQueueSendToBackFromISR( line.lQueue, ( void * ) &plMessage, (BaseType_t) 0);
+	xQueueSendToBack( line.lQueue, ( void * ) &plMessage, (BaseType_t) 0);
 }
 
 struct line_message* line_sensor_receive(void){

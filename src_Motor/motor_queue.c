@@ -31,6 +31,7 @@ void initializeMotorQueue(void){
     motor_create();
 }
 
+/*
 void MOTOR_QUEUE(void){
     initializeMotorQueue();
     struct motor_message *MOTOR_MESSAGE;
@@ -40,7 +41,7 @@ void MOTOR_QUEUE(void){
             MOTOR_MESSAGE = motor_receive();
         }
     }
-}
+}*/
 /*******************************************************************************
  End of File
  */
