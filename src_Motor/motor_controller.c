@@ -193,6 +193,7 @@
                 encoder.leftVal = ENCODER_MESSAGE->left;
             }
             dbgOutputVal((uint32_t)(encoder.rightVal*100));
+            dbgOutputLoc((uint32_t)(encoder.leftVal*100));
             if(motor.TIME_TO_SEND){
                 motor_send(motor.leftDir, motor.rightDir, motor.leftPower, motor.rightPower);
                 motor.TIME_TO_SEND = false;
