@@ -94,6 +94,7 @@ void IntHandlerDrvTmrInstance0(void)
 {
     PLIB_INT_SourceFlagClear(INT_ID_0,INT_SOURCE_TIMER_2);
         calculate_encoder_val();
+        motor.MOTOR_DEMO_COUNT++;
 }
 void IntHandlerDrvTmrInstance1(void)
 {
