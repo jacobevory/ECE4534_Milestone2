@@ -96,11 +96,15 @@
     }
     void motorControllerInitialize(void){
         DRV_TMR0_Start();
+        initializeMotorQueue();
         motor.MOTOR_DEMO_COUNT = 0;
+        motor.TIME_TO_SEND = false;
+        motor.leftSpeed = 0;
+        motor.rightSpeed = 0;
     }
 
     void motorDemo( void ){
-        motorControllerInitialize();
+        
         enum stateVariable { Initialize, Wait, Forward1, Forward2, TurnLeft, TurnRight, Reverse1, Reverse2, Stop, END_MOTOR, END_DEMO } state, nextState;
         state = Initialize;
         nextState = Wait;
@@ -180,7 +184,21 @@
     }
     
     void MOTOR(void){
-        motorDemo();
+        motorControllerInitialize();
+        struct encoder_message *ENCODER_MESSAGE;
+        for(;;){
+            if(uxQueueMessagesWaiting( encoder.eQueue ) > 0){
+                ENCODER_MESSAGE = encoder_sensor_receive();
+                encoder.rightVal = ENCODER_MESSAGE->right;
+                encoder.leftVal = ENCODER_MESSAGE->left;
+            }
+            dbgOutputVal((uint32_t)(encoder.rightVal*100));
+            if(motor.TIME_TO_SEND){
+                motor_send(motor.leftDir, motor.rightDir, motor.leftPower, motor.rightPower);
+                motor.TIME_TO_SEND = false;
+            }
+        }
+        //motorDemo();
     }
 /* *****************************************************************************
  End of File

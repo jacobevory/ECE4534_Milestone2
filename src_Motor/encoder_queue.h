@@ -6,10 +6,6 @@ typedef struct
 {
     QueueHandle_t eQueue;
     bool TIME_TO_CALCULATE;
-    volatile uint32_t left20Count;
-    volatile uint32_t right20Count;
-    volatile float left20Countf;
-    volatile float right20Countf;
     float float_1;
     float float_2;
     float rightVal;

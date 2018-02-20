@@ -15,7 +15,7 @@ void encoder_sensor_send(float L, float R){
     eMessage.left  = L;
 	eMessage.right = R;
     peMessage = &eMessage;
-	xQueueSendToBackFromISR( encoder.eQueue, ( void * ) &peMessage, (BaseType_t) 0);
+	xQueueSendToBack( encoder.eQueue, ( void * ) &peMessage, (BaseType_t) 0);
 }
 
 void calculate_encoder_val(void){
@@ -45,18 +45,12 @@ void initializeEncoder(void){
 uint8_t i = 0;
 void ENCODER(void){
     initializeEncoder();
-    struct encoder_message *ENCODER_MESSAGE;
     
     for(;;){
         if(encoder.TIME_TO_CALCULATE){
             calculate_encoder_val();
         }
-        if(uxQueueMessagesWaiting( encoder.eQueue ) > 0){
-            ENCODER_MESSAGE = encoder_sensor_receive();
-            encoder.rightVal = ENCODER_MESSAGE->right;
-            encoder.leftVal = ENCODER_MESSAGE->left;
-        }
-        dbgOutputVal((uint32_t)(encoder.rightVal*100));
+        
     }
 }
 /*******************************************************************************

@@ -33,6 +33,7 @@
 #include <bsp.h>
 #include "peripheral/oc/plib_oc.h"
 #include "peripheral/int/plib_int.h"
+#include "encoder_queue.h"
 /* Provide C++ Compatibility */
 #ifdef __cplusplus
 extern "C" {
@@ -81,13 +82,14 @@ extern "C" {
         banner.
      */
     typedef struct{
-        float error;
-        float kp;
+        float leftSpeed;
+        float rightSpeed;
         uint32_t leftPower;
         bool leftDir;
         uint32_t rightPower;
         bool rightDir;
         volatile uint32_t MOTOR_DEMO_COUNT;
+        volatile bool TIME_TO_SEND;
         volatile bool ENCODER_DEMO_TOGGLE;
         bool ENCODER_DEMO_RUNNING;
     } MOTOR_CONTROLLER_DATA;
