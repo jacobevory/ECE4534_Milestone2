@@ -98,7 +98,7 @@
         DRV_TMR0_Start();
     }
 
-    void MOTOR( void ){
+    void motorDemo( void ){
         //configASSERT( ( ( uint32_t ) pvParameters ) == 1 );
         motorControllerInitialize();
         enum stateVariable { Initialize, Wait, Forward1, Forward2, TurnLeft, TurnRight, Reverse1, Reverse2, Stop, END_MOTOR, END_DEMO } state, nextState;
@@ -178,9 +178,9 @@
         }
     }
     
-    /*void MOTOR(void){
+    void MOTOR(void){
         motorDemo();
-    }*/
+    }
 /* *****************************************************************************
  End of File
  */
