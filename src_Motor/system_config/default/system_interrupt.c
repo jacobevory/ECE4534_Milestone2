@@ -101,12 +101,10 @@ void IntHandlerDrvTmrInstance0(void)
 void IntHandlerDrvTmrInstance1(void)
 {
     PLIB_INT_SourceFlagClear(INT_ID_0,INT_SOURCE_TIMER_3);
-    encoder.left20Count++;
 }
 void IntHandlerDrvTmrInstance2(void)
 {
     PLIB_INT_SourceFlagClear(INT_ID_0,INT_SOURCE_TIMER_4);
-    encoder.right20Count++;
 }
  
  /*******************************************************************************
