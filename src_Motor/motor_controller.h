@@ -82,16 +82,19 @@ extern "C" {
     /*  A brief description of a section can be given directly below the section
         banner.
      */
-
-    float error;
-    float kp;
-    uint32_t leftPower;
-    bool leftDir;
-    uint32_t rightPower;
-    bool rightDir;
-    volatile uint32_t MOTOR_DEMO_COUNT;
-    volatile bool ENCODER_DEMO_TOGGLE;
-    bool ENCODER_DEMO_RUNNING;
+    typedef struct{
+        float error;
+        float kp;
+        uint32_t leftPower;
+        bool leftDir;
+        uint32_t rightPower;
+        bool rightDir;
+        volatile uint32_t MOTOR_DEMO_COUNT;
+        volatile bool ENCODER_DEMO_TOGGLE;
+        bool ENCODER_DEMO_RUNNING;
+    } MOTOR_CONTROLLER_DATA;
+    
+    MOTOR_CONTROLLER_DATA motor;
     // *****************************************************************************
 
     void setDirection(bool);
@@ -107,8 +110,8 @@ extern "C" {
     
     void motorControllerInitialize(void);
     
-    void motorDemo(void);
-    
+    void motorDemo( void );
+    void MOTOR(void);
     /* Provide C++ Compatibility */
 #ifdef __cplusplus
 }

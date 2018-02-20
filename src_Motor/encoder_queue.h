@@ -3,12 +3,15 @@
 
 typedef struct
 {
-    /* TODO: Define any additional data used by the application. */
-
+    QueueHandle_t eQueue;
     volatile uint32_t left20Count;
     volatile uint32_t right20Count;
     volatile float left20Countf;
     volatile float right20Countf;
+    float float_1;
+    float float_2;
+    float rightVal;
+    float leftVal;
 } ENCODER_QUEUE_DATA;
 
 ENCODER_QUEUE_DATA encoder;
@@ -19,8 +22,7 @@ struct encoder_message
 		float right;
     } eMessage;
 
-float Val1;
-float Val2;
+
 
 //void sensorq_create( void );
 void encoder_sensor_create( void );
@@ -28,3 +30,4 @@ void encoder_sensor_create( void );
 void encoder_sensor_send(float L, float R); 
 void calculate_encoder_val(void);
 struct encoder_message * encoder_sensor_receive( void );
+void ENCODER();
