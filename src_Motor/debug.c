@@ -91,27 +91,16 @@ void writeIntTo2(uint8_t value){
 void UARTstringPLZ(const char *string){
     const char *stringPointer;
     stringPointer = string;
-    while((*stringPointer != '\0') & !PLIB_USART_TransmitterBufferIsFull(USART_ID_1)){
-                PLIB_USART_TransmitterByteSend(USART_ID_1, *stringPointer);
-                stringPointer++;
-                if(*stringPointer == '\0'){
-                    stringPointer = string;
-                    return;
-                }
+    while(*stringPointer == '\0'){
+        uart_send(*stringPointer);
+        stringPointer++;
+            if(*stringPointer == '\0'){
+                stringPointer = string;
+                SYS_INT_SourceEnable(INT_SOURCE_USART_1_TRANSMIT);
+                return;
+            }
     }
 }
-/*Extra pin map
- 
-    PLIB_PORTS_PinWrite (PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_1, array[0]);
-    PLIB_PORTS_PinWrite (PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_0, array[1]);
-    PLIB_PORTS_PinWrite (PORTS_ID_0, PORT_CHANNEL_A, PORTS_BIT_POS_6, array[2]);
-    PLIB_PORTS_PinWrite (PORTS_ID_0, PORT_CHANNEL_A, PORTS_BIT_POS_7, array[3]);
-    PLIB_PORTS_PinWrite (PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_14, array[4]);
-    PLIB_PORTS_PinWrite (PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_12, array[5]);
-    PLIB_PORTS_PinWrite (PORTS_ID_0, PORT_CHANNEL_G, PORTS_BIT_POS_13, array[6]);
-    PLIB_PORTS_PinWrite (PORTS_ID_0, PORT_CHANNEL_A, PORTS_BIT_POS_9, array[7]);
- 
- */
 /* *****************************************************************************
  End of File
  */

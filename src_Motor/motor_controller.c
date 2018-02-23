@@ -191,7 +191,11 @@
                 ENCODER_MESSAGE = encoder_sensor_receive();
                 encoder.rightVal = ENCODER_MESSAGE->right;
                 encoder.leftVal = ENCODER_MESSAGE->left;
-            }
+            }/*
+            char str[300] = "POST /motor HTTP/1.1\nContent-Type: application/json\nContent-Length: 60\n\n";
+            char str1[80];
+            */
+            
             dbgOutputVal((uint32_t)(encoder.rightVal*100));
             dbgOutputLoc((uint32_t)(encoder.leftVal*100));
             if(motor.TIME_TO_SEND){
