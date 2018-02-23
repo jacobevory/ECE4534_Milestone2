@@ -63,7 +63,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #include "app.h"
 #include "motor_controller.h"
 #include "motor_queue.h"
-#include "system_definitions.h"
+#include "uart_thread.h"
 
 // *****************************************************************************
 // *****************************************************************************
@@ -72,9 +72,43 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 // *****************************************************************************
 void IntHandlerDrvUsartInstance0(void)
 {
-    DRV_USART_TasksTransmit(sysObj.drvUsart0);
+    if(SYS_INT_SourceStatusGet(INT_SOURCE_USART_1_TRANSMIT)){
+        /* Disable the interrupt, to avoid calling ISR continuously*/
+        
+        SYS_INT_SourceDisable(INT_SOURCE_USART_1_TRANSMIT);
+        /* Clear up the interrupt flag */
+        SYS_INT_SourceStatusClear(INT_SOURCE_USART_1_TRANSMIT);
+        int i = 0;
+        struct uart_message *UART_TRANSMIT_MESSAGE;
+        for(i = 0; i < 8; i++){
+            if(uxQueueMessagesWaiting( uart.utQueue ) > 0){
+            UART_TRANSMIT_MESSAGE = uart_receive_from_transmit_queue();
+            PLIB_USART_TransmitterByteSend(USART_ID_1, UART_TRANSMIT_MESSAGE->data);
+            }
+        }
+    }
     DRV_USART_TasksError(sysObj.drvUsart0);
-    DRV_USART_TasksReceive(sysObj.drvUsart0);
+    
+    /* This is the USART Driver Receive tasks routine. If the receive
+       interrupt flag is set, the tasks routines are executed.
+     */
+
+    /* Reading the receive interrupt flag */
+    if(SYS_INT_SourceStatusGet(INT_SOURCE_USART_1_RECEIVE))
+    {
+
+        /* Clear up the interrupt flag */
+        SYS_INT_SourceStatusClear(INT_SOURCE_USART_1_RECEIVE);
+        int i = 0;
+        struct uart_message *UART_RECEIVE_MESSAGE;
+        for(i = 0; i < 8; i++){
+            if(PLIB_USART_ReceiverDataIsAvailable(USART_ID_1)){
+                uart_receive(PLIB_USART_ReceiverByteReceive(USART_ID_1));
+            }
+        }
+    }
+    
+    
 }
  
  
@@ -102,10 +136,12 @@ void IntHandlerDrvTmrInstance0(void)
 void IntHandlerDrvTmrInstance1(void)
 {
     PLIB_INT_SourceFlagClear(INT_ID_0,INT_SOURCE_TIMER_3);
+    //Comm Error to server
 }
 void IntHandlerDrvTmrInstance2(void)
 {
     PLIB_INT_SourceFlagClear(INT_ID_0,INT_SOURCE_TIMER_4);
+    //Comm Error to server
 }
  
  /*******************************************************************************
