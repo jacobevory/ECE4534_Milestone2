@@ -17,7 +17,7 @@ def insColor(mes, seq, col):
         curs.execute("""INSERT INTO colorTable (msg, seq, red) VALUES (%s, %s, %s)""", (mes, seq, col))
 
 def insLine(mes, seq, l1, l2, l3, l4, l5, l6, l7, l8):
-        curs.execute("""INSERT INTO lineTable (msg, seq, li1, li2, li3, li4, li5, li6, li7, li8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",$
+        curs.execute("""INSERT INTO lineTable (msg, seq, li1, li2, li3, li4, li5, li6, li7, li8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""", (mes, seq, l1, l2, l3, l4, l5, l6, l7, l8))
 
 def insIR(mes, seq, id1, iu1, id2, iu2):
         curs.execute("""INSERT INTO irTable (msg, seq, id1, iu1, id2, iu2) VALUES (%s, %s, %s, %s, %s, %s)""", (mes, seq, id1, iu1, id2, iu2))
@@ -48,7 +48,7 @@ while True:
                 data = client.recv(size)
                 if data:
                         jdata = data.decode('ascii')
- json = ast.literal_eval(jdata)
+                        json = ast.literal_eval(jdata)
                         print(json)
                         #json holds json dictionary
                         #post motor
@@ -68,7 +68,7 @@ while True:
 						#color
                         elif json["typ"] == "l":
                                  #insert JSON into db
-                                insLine(json["rid"], json["seq"], json["li1"], json["li2"], json["li3"], json["li4"], json["li5"], json["li6"], json$
+                                insLine(json["rid"], json["seq"], json["li1"], json["li2"], json["li3"], json["li4"], json["li5"], json["li6"], json["li7"], json["li8"])
                                 r = "{\"msg\":\"6\",\"seq\":\"" + json["seq"] +  "\"}"
                                 client.send(r.encode("ascii"))
                                 print("inLine\n")
@@ -82,9 +82,8 @@ while True:
                         #get ir
                         elif json["typ"] == "r":
                                 row = curs.execute("SELECT * FROM irTable")
-								client.send(r.encode("ascii"))
+                                client.send(r.encode("ascii"))
                                 print ("in request \n")
 
 
 client.close()
-
