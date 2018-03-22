@@ -13,8 +13,8 @@ dictCurs = db.cursor(MySQLdb.cursors.DictCursor)
 def insMotor(mes, seq, d1, s1, d2, s2):
         curs.execute("""INSERT INTO motorTable (msg, seq, dil, dir, spl, spr) VALUES (%s, %s, %s, %s, %s, %s)""", (mes, seq, d1, d2, s1, s2))
 
-def insColor(mes, seq, red, green, blue):
-        curs.execute("""INSERT INTO colorTable (msg, seq, red, gre, blu) VALUES (%s, %s, %s, %s, %s)""", (mes, seq, red, green, blue))
+def insColor(mes, seq, col):
+        curs.execute("""INSERT INTO colorTable (msg, seq, red) VALUES (%s, %s, %s)""", (mes, seq, col))
 
 def insLine(mes, seq, l1, l2, l3, l4, l5, l6, l7, l8):
         curs.execute("""INSERT INTO lineTable (msg, seq, li1, li2, li3, li4, li5, li6, li7, li8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",$
@@ -61,7 +61,7 @@ while True:
                         #post color
                         elif json["typ"] == "c":
                                 #insert JSON into db
-                                insColor (json["rid"], json["seq"], json["red"], json["gre"], json["blu"])
+                                insColor (json["rid"], json["seq"], json["col"])
                                 r = "{\"msg\":\"6\",\"seq\":\"" + json["seq"] +  "\"}"
                                 client.send(r.encode("ascii"))
                                 print("in color\n")
